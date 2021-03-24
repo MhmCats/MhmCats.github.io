@@ -12,12 +12,14 @@ var direction = null;
 var length = 0;
 var positions = [];
 
-function updateGame() {
+function updateGame(updateText) {
 
 	var canvas = document.getElementById("gameCanvas");
 	var ctx = canvas.getContext("2d");
 
-	document.getElementById("output").innerHTML = `Score: ${length}`;
+	if (updateText) {
+		document.getElementById("output").innerHTML = `Score: ${length}`;
+	}
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
 
 	ctx.fillStyle = "#23272A";
@@ -38,6 +40,7 @@ function updateGame() {
 	if (checkDead()) {
 		PLAYING = false;
 		document.getElementById("output").innerHTML = `You died... your score was ${length}`;
+		setTimeout(reset, 1000);
 		return;
 	}
 
@@ -45,6 +48,17 @@ function updateGame() {
 		length ++;
 		foodPos = generateFood();
 	}
+}
+
+function reset() {
+	PLAYING = true;
+	x = 225;
+	y = 225;
+	foodPos = [400, 225]
+	direction = null;
+	length = 0;
+	positions = [];
+	updateGame(false);
 }
 
 function generateFood() {
@@ -81,7 +95,7 @@ function movement() {
 				} else {
 					y -= GRIDSIZE;
 				}
-				updateGame();
+				updateGame(true);
 				break;
 			case "d":
 				if (y == canvas.width-GRIDSIZE) {
@@ -89,7 +103,7 @@ function movement() {
 				} else {
 					y += GRIDSIZE;
 				}
-				updateGame();
+				updateGame(true);
 				break;
 			case "l":
 				if (x == 0) {
@@ -97,7 +111,7 @@ function movement() {
 				} else {
 					x -= GRIDSIZE;
 				}
-				updateGame();
+				updateGame(true);
 				break;
 			case "r":
 				if (x == canvas.width-GRIDSIZE) {
@@ -105,7 +119,7 @@ function movement() {
 				} else {
 					x += GRIDSIZE;
 				}
-				updateGame();
+				updateGame(true);
 				break;
 			default:
 				break;
@@ -144,6 +158,6 @@ function keydownHandler(event) {
 window.addEventListener("keydown", function (event) { keydownHandler(event) });
 
 window.onload = function () {
-	updateGame();
-	setInterval(movement, 75);
+	updateGame(false);
+	setInterval(movement, 100);
 }
