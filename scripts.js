@@ -9,8 +9,8 @@ var foodPos = [400, 225]
 
 var direction = null;
 
-var length = 0;
-var positions = [];
+var length = 2;
+var positions = [[200, 225], [175, 225]];
 
 function updateGame(updateText) {
 
@@ -18,7 +18,7 @@ function updateGame(updateText) {
 	var ctx = canvas.getContext("2d");
 
 	if (updateText) {
-		document.getElementById("output").innerHTML = `Score: ${length}`;
+		document.getElementById("output").innerHTML = `Score: ${length-2}`;
 	}
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
 
